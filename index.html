@@ -7,42 +7,80 @@
     <title>Document</title>
     <style>
       /* Custom animation untuk running text */
-      .marquee {
-        white-space: nowrap;
+      .marquee-logo {
+        padding-block: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 3rem;
+      }
+
+      .marquee-wrapper[data-animated='true'] {
         overflow: hidden;
-        box-sizing: border-box;
+        -webkit-mask: linear-gradient(90deg, transparent, white 30%, white 70%, transparent);
+        mask: linear-gradient(90deg, transparent, white 30%, white 70%, transparent);
       }
 
-      .marquee span {
-        display: inline-block;
-        padding-left: 100%;
-        animation: marquee 15s linear infinite;
+      .marquee-wrapper[data-animated='true'] .marquee-logo {
+        width: max-content;
+        flex-wrap: nowrap;
+        animation: marquee-logo var(--_animation-duration, 40s) var(--_animation-direction, forwards) linear infinite;
       }
 
-      @keyframes marquee {
-        0% {
-          transform: translate(0, 0);
-        }
-        100% {
-          transform: translate(-100%, 0);
+      .marquee-wrapper[data-direction='right'] {
+        --_animation-direction: reverse;
+      }
+
+      .marquee-wrapper[data-direction='left'] {
+        --_animation-direction: forwards;
+      }
+
+      .marquee-wrapper[data-speed='fast'] {
+        --_animation-duration: 20s;
+      }
+
+      .marquee-wrapper[data-speed='slow'] {
+        --_animation-duration: 60s;
+      }
+
+      @keyframes marquee-logo {
+        to {
+          transform: translate(calc(-50% - 0.5rem));
         }
       }
 
-      /* Animasi untuk Slider */
-      @keyframes fade {
-        0% {
-          opacity: 0;
-        }
-        100% {
-          opacity: 1;
-        }
-      }
 
-      /* Hover effect untuk card */
-      .card:hover {
-        transform: scale(1.05);
-        transition: transform 0.3s ease-in-out;
-      }
+
+        /* Custom animation untuk running text */
+        .marquee {
+          white-space: nowrap;
+          overflow: hidden;
+          box-sizing: border-box;
+        }
+    
+        .marquee span {
+          display: inline-block;
+          padding-left: 100%;
+          animation: marquee 15s linear infinite;
+        }
+    
+        @keyframes marquee {
+          0%   { transform: translate(0, 0); }
+          100% { transform: translate(-100%, 0); }
+        }
+    
+        /* Animasi untuk Slider */
+        @keyframes fade {
+          0% { opacity: 0; }
+          100% { opacity: 1; }
+        }
+    
+    
+        /* Hover effect untuk card */
+        .card:hover {
+          transform: scale(1.05);
+          transition: transform 0.3s ease-in-out;
+        }
+        
     </style>
   </head>
   <body class="">
@@ -50,7 +88,7 @@
       <div class="flex flex-1 overflow-hidden">
         <!-- Sidebar -->
         <aside
-          class="w-[400px] bg-white text-blacks flex flex-col items-center py-6 space-y-6 overflow-y-auto sticky top-0"
+          class="w-3/12 bg-white text-blacks flex flex-col items-center py-6 space-y-6 overflow-y-auto sticky top-0"
         >
           <!-- Logo -->
           <img
@@ -60,31 +98,17 @@
           />
 
           <!-- Kalender & Jam -->
-          <div
-            id="dateTimeCard"
-            class="bg-gray-100 rounded-2xl p-10 w-11/12 mx-auto mt-6 relative shadow-lg"
-          >
-            <!-- Bulatan kecil pojok kiri atas -->
-            <div
-              class="absolute top-4 left-4 w-6 h-6 bg-red-800 rounded-full"
-            ></div>
-
-            <!-- Konten center -->
+          <div id="dateTimeCard"class="bg-gray-100 rounded-2xl p-10 w-11/12 mx-auto mt-6 relative shadow-lg card">
+            <div class="absolute top-4 left-4">
+              <img src="./img/icon/Jam.png" alt="" class="h-10">
+            </div>
             <div class="flex flex-col items-center">
-              <!-- Icon Jam + Jam -->
               <div class="flex items-center mb-2">
                 <p id="time" class="ml-2 text-4xl font font-bold text-black">
                   00:00:00
                 </p>
               </div>
-
-              <!-- Icon Kalender + Tanggal -->
               <div class="flex items-center">
-                <!-- <img
-                  src="img/calendar.png"
-                  alt="Calendar Icon"
-                  class="h-6 w-6"
-                /> -->
                 <p id="date" class="ml-2 text-sm text-black">
                   Loading tanggal…
                 </p>
@@ -93,15 +117,10 @@
           </div>
 
           <!-- Card Cuaca Bandung (sederhana) -->
-          <div
-            id="weatherCard"
-            class="bg-gray-100 rounded-2xl p-6 w-11/12 max-w-sm mx-auto mt-6 relative shadow-lg"
-          >
-            <!-- Bulatan kecil pojok kiri atas -->
+          <div id="weatherCard" class="bg-gray-100 rounded-2xl p-10 w-11/12 mx-auto mt-6 relative shadow-lg card">
             <div
-              class="absolute top-4 left-4 w-6 h-6 bg-white rounded-full"
-            ></div>
-
+              class="absolute top-4 left-4">
+            <img src="./img/icon/Cuaca.png" alt="" class="h-10"></div>
             <!-- Konten center: suhu, kota, kondisi -->
             <div class="flex flex-col items-center">
               <p id="temp" class="text-5xl font-bold text-black mb-1">--°C</p>
@@ -111,27 +130,84 @@
           </div>
 
           <!-- Countdown Event -->
-          <div class="bg-white rounded-xl p-4 shadow-lg w-11/12 card">
-            <h2 class="text-lg font-semibold mb-2 flex items-center">
-              ⏳ <span class="ml-2">Countdown Acara</span>
+          <div class="flex flex-col bg-white rounded-xl p-4 shadow-lg w-11/12 card mb-6">
+            <h2 class="w-full text-2xl font-semibold flex items-center justify-center">
+              <span class="">Countdown Acara</span>
             </h2>
-            <div
-              id="countdown"
-              class="text-center font-mono text-xl text-gray-800"
-            ></div>
+          <div id="countdown" class="text-center py-4 text-3xl font-extrabold font-mono text-gray-800"></div>
+          <h2 class="w-full text-2xl font-semibold flex items-center justify-center bg-gray-100 rounded p-4">
+            <span>Upacara Pembukaan</span>
+          </h2>
+        </div>
+
+       
+        <!-- Berita Terbaru -->
+        <div class="flex flex-col bg-white rounded-xl p-4 shadow-lg w-11/12 card mb-6 text-black gap-6">
+          <div class="flex w-full items-center">
+            <img src="./img/icon/Kalender.png" alt="" class="h-10">
+            <h2 class="w-full text-2xl font-semibold flex items-center justify-center">
+              <span>Berita Terbaru</span>
+            </h2>
           </div>
 
-          <!-- Berita Terbaru -->
-          <div class="bg-white rounded-xl p-4 shadow-lg w-11/12 card mb-6">
-            <h2 class="text-lg font-semibold mb-2 flex items-center">
-              📰 <span class="ml-2">Berita Terbaru</span>
-            </h2>
-            <ul class="text-sm list-disc list-inside space-y-1 text-gray-800">
-              <li>Pengumuman lomba seni.</li>
-              <li>Pameran fakultas bulan Agustus.</li>
-              <li>Workshop kreatif digital.</li>
-            </ul>
+          <!-- Slider Area -->
+          <div class="flex overflow-x-auto gap-6 scroll-smooth snap-x snap-mandatory pb-4">
+            <!-- Card 1 -->
+            <div class="flex-shrink-0 flex flex-col bg-gray-100 rounded-md p-4 shadow-lg w-full justify-center snap-center">
+              <h2 class="font-light text-xl text-center">Sabtu, 29 Feb</h2>
+              <h1 class="font-bold text-2xl text-center">Pengumuman apa aja</h1>
+              <div class="rounded h-40 bg-gray-900 my-4"></div>
+              <p class="text-justify">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Numquam fugiat aspernatur, ut quae molestias dignissimos maxime odio assumenda</p>    
+            </div>
+        
+            <!-- Card 2 -->
+            <div class="flex-shrink-0 flex flex-col bg-gray-100 rounded-md p-4 shadow-lg w-full justify-center snap-center">
+              <h2 class="font-light text-xl text-center">Minggu, 1 Mar</h2>
+              <h1 class="font-bold text-2xl text-center">Workshop Design</h1>
+              <div class="rounded h-40 bg-gray-900 my-4"></div>
+              <p class="text-justify">Kegiatan workshop digital kreatif diadakan di aula FPSD mulai pukul 08:00.</p>    
+            </div>
+        
+            <!-- Card 3 -->
+            <div class="flex-shrink-0 flex flex-col bg-gray-100 rounded-md p-4 shadow-lg w-full justify-center snap-center">
+              <h2 class="font-light text-xl text-center">Senin, 2 Mar</h2>
+              <h1 class="font-bold text-2xl text-center">Pameran Karya Mahasiswa</h1>
+              <div class="rounded h-40 bg-gray-900 my-4"></div>
+              <p class="text-justify">Pameran hasil karya mahasiswa FPSD akan dilaksanakan di gedung pameran utama.</p>    
+            </div>
           </div>
+        </div>
+
+        <!-- marquee partnership -->
+        <div class="text-black text-xl md:text-2xl font-semibold font-work w-full text-center">Presented</div>
+        <div class="flex items-center justify-center overflow-hidden py-20 px-8 w-full">   
+          <div class="marquee-wrapper" data-animated="true" data-direction="left" data-speed="medium">
+            <div class="marquee-logo">            
+              <img src="./img/Partnership/BandungDesignFriendly-LogoNew-Beta-04.png" alt="Presented By 1"class="h-[75px]">             
+              <img src="./img/Partnership/IMADjI DKV_Logo-01.png" alt="Presented By 1"class="h-[75px]">             
+              <img src="./img/Partnership/IMG-20250408-WA0009.jpg" alt="Presented By 1"class="h-[75px]">                         
+              <img src="./img/Partnership/logo 1.png" alt="Presented By 1"class="h-[75px]">             
+              <img src="./img/Partnership/Logo HM-DKV UTB (1).png" alt="Presented By 1"class="h-[75px]">             
+              <img src="./img/Partnership/LOGO KAMASRA.png" alt="Presented By 1"class="h-[75px]">                         
+              <img src="./img/Partnership/LOGO.png" alt="Presented By 1"class="h-[75px]">             
+              <img src="./img/Partnership/LOGO20202.png" alt="Presented By 1"class="h-[75px]">             
+              <img src="./img/Partnership/Logo_UKM Balon Kata.png" alt="Presented By 1"class="h-[75px]">                         
+              <img src="./img/Partnership/Screenshot_2025-01-30-13-37-12-19_7352322957d4404136654ef4adb64504.jpg" alt="Presented By 1"class="h-[75px]">                         
+              <img src="./img/Partnership/Skema_LogoC.png" alt="Presented By 1"class="h-[75px]">                                                
+              <img src="./img/Partnership/BandungDesignFriendly-LogoNew-Beta-04.png" alt="Presented By 1"class="h-[75px]">             
+              <img src="./img/Partnership/IMADjI DKV_Logo-01.png" alt="Presented By 1"class="h-[75px]">             
+              <img src="./img/Partnership/IMG-20250408-WA0009.jpg" alt="Presented By 1"class="h-[75px]">                         
+              <img src="./img/Partnership/logo 1.png" alt="Presented By 1"class="h-[75px]">             
+              <img src="./img/Partnership/Logo HM-DKV UTB (1).png" alt="Presented By 1"class="h-[75px]">             
+              <img src="./img/Partnership/LOGO KAMASRA.png" alt="Presented By 1"class="h-[75px]">                         
+              <img src="./img/Partnership/LOGO.png" alt="Presented By 1"class="h-[75px]">             
+              <img src="./img/Partnership/LOGO20202.png" alt="Presented By 1"class="h-[75px]">             
+              <img src="./img/Partnership/Logo_UKM Balon Kata.png" alt="Presented By 1"class="h-[75px]">                         
+              <img src="./img/Partnership/Screenshot_2025-01-30-13-37-12-19_7352322957d4404136654ef4adb64504.jpg" alt="Presented By 1"class="h-[75px]">                         
+              <img src="./img/Partnership/Skema_LogoC.png" alt="Presented By 1"class="h-[75px]">                                                
+            </div>
+          </div>
+        </div>
         </aside>
 
         <!-- Main Content -->
@@ -197,6 +273,26 @@
 
     <!-- Scripts -->
     <script>
+       document.addEventListener('DOMContentLoaded', function() {
+          const slider = document.querySelector('.overflow-x-auto');
+          const cards = slider.querySelectorAll('.snap-center');
+          let currentIndex = 0;
+
+          function autoSlide() {
+            currentIndex++;
+            if (currentIndex >= cards.length) {
+              currentIndex = 0;
+            }
+            const card = cards[currentIndex];
+            slider.scrollTo({
+              left: card.offsetLeft,
+              behavior: 'smooth'
+            });
+          }
+
+          setInterval(autoSlide, 7000); // 7 detik
+        });
+
       // Slider
       const slides = document.querySelectorAll("#slider img");
       let current = 0;

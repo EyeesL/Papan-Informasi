@@ -2,6 +2,7 @@
  export default {
   content: [
     "./index.html",
+    "./index copy.html",
     "./js/**/*.js",
     "./src/**/*.{html,js}"
   ],

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="src/output.css" rel="stylesheet">
+    <style>
+        /* Custom animation untuk marquee logo */
+        .marquee-logo {
+        padding-block: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 3rem;
+      }
+
+      .marquee-wrapper[data-animated='true'] {
+        overflow: hidden;
+        -webkit-mask: linear-gradient(90deg, transparent, white 50%, white 50%, transparent);
+        mask: linear-gradient(90deg, transparent, white 50%, white 50%, transparent);
+      }
+
+      .marquee-wrapper[data-animated='true'] .marquee-logo {
+        width: max-content;
+        flex-wrap: nowrap;
+        animation: marquee-logo var(--_animation-duration, 40s) var(--_animation-direction, forwards) linear infinite;
+      }
+
+      .marquee-wrapper[data-direction='right'] {
+        --_animation-direction: reverse;
+      }
+
+      .marquee-wrapper[data-direction='left'] {
+        --_animation-direction: forwards;
+      }
+
+      .marquee-wrapper[data-speed='fast'] {
+        --_animation-duration: 20s;
+      }
+
+      .marquee-wrapper[data-speed='slow'] {
+        --_animation-duration: 60s;
+      }
+
+      @keyframes marquee-logo {
+        to {
+          transform: translate(calc(-50% - 0.5rem));
+        }
+      }
+
+
+
+        /* Custom animation untuk running text */
+        .marquee {
+          white-space: nowrap;
+          overflow: hidden;
+          box-sizing: border-box;
+        }
+    
+        .marquee span {
+          display: inline-block;
+          padding-left: 100%;
+          animation: marquee 15s linear infinite;
+        }
+    
+        @keyframes marquee {
+          0%   { transform: translate(0, 0); }
+          100% { transform: translate(-100%, 0); }
+        }
+    
+        /* Animasi untuk Slider */
+        @keyframes fade {
+          0% { opacity: 0; }
+          100% { opacity: 1; }
+        }
+    
+    
+        /* Hover effect untuk card */
+        .card:hover {
+          transform: scale(1.05);
+          transition: transform 0.3s ease-in-out;
+        }
+        
+      </style>
+    </head>
+    <body class=" text-black">
+    
+      <div class="h-screen flex flex-col">
+        <div class="flex flex-1 overflow-hidden">
+    
+          <!-- Sidebar -->
+          <aside class="w-3/12 text-blacks flex flex-col items-center py-6 space-y-6 overflow-y-auto sticky top-0">
+            <!-- Logo -->
+            <img src="img/logo-fpsd.png" alt="Logo" class="h-16 w-auto mb-4 transform hover:scale-110 transition-transform duration-300">
+    
+            <!-- Kalender -->
+            <div class="bg-white rounded-xl p-4 shadow-lg w-11/12 card">
+              <h2 class="text-lg font-semibold mb-2 flex items-center">
+                📅 <span class="ml-2">Kalender</span>
+              </h2>
+              <p id="date" class="text-center text-sm text-gray-800"></p>
+            </div>
+    
+            <!-- Jam -->
+            <div class="bg-white rounded-xl p-4 shadow-lg w-11/12 card">
+              <h2 class="text-lg font-semibold mb-2 flex items-center">
+                ⏰ <span class="ml-2">Jam</span>
+              </h2>
+              <p id="time" class="text-center font-mono text-xl text-gray-800"></p>
+            </div>
+    
+            <!-- Countdown Event -->
+            <div class="flex flex-col bg-white rounded-xl p-4 shadow-lg w-11/12 card mb-6">
+                <h2 class="w-full text-2xl font-semibold flex items-center justify-center">
+                  <span class="">Countdown Acara</span>
+                </h2>
+              <div id="countdown" class="text-center py-4 text-3xl font-extrabold font-mono text-gray-800"></div>
+              <h2 class="w-full text-2xl font-semibold flex items-center justify-center bg-gray-200 rounded p-4">
+                <span>Upacara Pembukaan</span>
+              </h2>
+            </div>
+    
+           
+            <!-- Berita Terbaru -->
+            <div class="flex flex-col bg-white rounded-xl p-4 shadow-lg w-11/12 card mb-6 text-black gap-6">
+              <div class="flex w-full items-center">
+                <img src="./img/icon/calendar.png" alt="" class="h-10">
+                <h2 class="w-full text-2xl font-semibold flex items-center justify-center">
+                  <span>Berita Terbaru</span>
+                </h2>
+              </div>
+              <!-- Slider Area -->
+              <div class="flex overflow-x-auto gap-6 scroll-smooth snap-x snap-mandatory pb-4">
+                <!-- Card 1 -->
+                <div class="flex-shrink-0 flex flex-col bg-gray-200 rounded-md p-4 shadow-lg w-full justify-center snap-center">
+                  <h2 class="font-light text-xl text-center">Sabtu, 29 Feb</h2>
+                  <h1 class="font-bold text-2xl text-center">Pengumuman apa aja</h1>
+                  <div class="rounded h-40 bg-gray-900 my-4"></div>
+                  <p class="text-justify">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Numquam fugiat aspernatur, ut quae molestias dignissimos maxime odio assumenda</p>    
+                </div>
+            
+                <!-- Card 2 -->
+                <div class="flex-shrink-0 flex flex-col bg-gray-200 rounded-md p-4 shadow-lg w-full justify-center snap-center">
+                  <h2 class="font-light text-xl text-center">Minggu, 1 Mar</h2>
+                  <h1 class="font-bold text-2xl text-center">Workshop Design</h1>
+                  <div class="rounded h-40 bg-gray-900 my-4"></div>
+                  <p class="text-justify">Kegiatan workshop digital kreatif diadakan di aula FPSD mulai pukul 08:00.</p>    
+                </div>
+            
+                <!-- Card 3 -->
+                <div class="flex-shrink-0 flex flex-col bg-gray-200 rounded-md p-4 shadow-lg w-full justify-center snap-center">
+                  <h2 class="font-light text-xl text-center">Senin, 2 Mar</h2>
+                  <h1 class="font-bold text-2xl text-center">Pameran Karya Mahasiswa</h1>
+                  <div class="rounded h-40 bg-gray-900 my-4"></div>
+                  <p class="text-justify">Pameran hasil karya mahasiswa FPSD akan dilaksanakan di gedung pameran utama.</p>    
+                </div>
+              </div>
+            </div>
+
+            <!-- marquee partnership -->
+            <div class="text-black text-xl md:text-2xl font-semibold font-work w-full text-center">Presented</div>
+            <div class="flex items-center justify-center overflow-hidden py-12 px-8 w-full">   
+              <div class="marquee-wrapper" data-animated="true" data-direction="left" data-speed="slow">
+                <div class="marquee-logo">            
+                  <img src="./img/Hikavi Logo Main 1 Orange White.png" alt="Presented By 1"class="h-[75px]">             
+                  <img src="./img/logo dkv white-01.png" alt="Presented By 1"class="h-[75px]">             
+                  <img src="./img/UPI white-05.png" alt="Presented By 1"class="h-[75px]">                         
+                  <img src="./img/Hikavi Logo Main 1 Orange White.png" alt="Presented By 1"class="h-[75px]">             
+                  <img src="./img/logo dkv white-01.png" alt="Presented By 1"class="h-[75px]">             
+                  <img src="./img/UPI white-05.png" alt="Presented By 1"class="h-[75px]">                         
+                  <img src="./img/Hikavi Logo Main 1 Orange White.png" alt="Presented By 1"class="h-[75px]">             
+                  <img src="./img/logo dkv white-01.png" alt="Presented By 1"class="h-[75px]">             
+                  <img src="./img/UPI white-05.png" alt="Presented By 1"class="h-[75px]">                         
+                </div>
+              </div>
+            </div>
+          </aside>
+    
+          <!-- Main Content -->
+          <main class="flex-1 flex flex-col overflow-hidden">
+    
+            <!-- Navbar -->
+            <nav class="bg-white flex items-center justify-center px-6 py-4 relative shadow">
+              <span class="text-xl text-black font-bold text-center">
+                Papan Informasi Fakultas Pendidikan Seni dan Desain
+              </span>
+            </nav>
+    
+            <!-- Slider -->
+            <div class="flex-1 relative overflow-hidden bg-black">
+              <div id="slider" class="w-full h-full relative">
+                <img src="img/foto1.png" class="w-full h-full object-cover absolute inset-0 opacity-100 transition-opacity duration-1000" style="animation: fade 2s;">
+                <img src="img/foto2.jpg" class="w-full h-full object-cover absolute inset-0 opacity-0 transition-opacity duration-1000" style="animation: fade 2s;">
+                <img src="img/foto3.png" class="w-full h-full object-cover absolute inset-0 opacity-0 transition-opacity duration-1000" style="animation: fade 2s;">
+                <img src="img/foto4.png" class="w-full h-full object-cover absolute inset-0 opacity-0 transition-opacity duration-1000" style="animation: fade 2s;">
+                <img src="img/foto5.png" class="w-full h-full object-cover absolute inset-0 opacity-0 transition-opacity duration-1000" style="animation: fade 2s;">
+              </div>
+            </div>
+          </main>
+        </div>
+        <!-- Running Text -->
+        <div class="bg-yellow-400 text-black py-2">
+          <div class="marquee">
+            <span>Pengumuman: Pendaftaran lomba ditutup pada tanggal 30 Juli 2025! || Update: Maintenance server tanggal 1 Agustus 2025 ||</span>
+          </div>
+        </div>
+      </div>
+
+    
+      <!-- Scripts -->
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const slider = document.querySelector('.overflow-x-auto');
+          const cards = slider.querySelectorAll('.snap-center');
+          let currentIndex = 0;
+
+          function autoSlide() {
+            currentIndex++;
+            if (currentIndex >= cards.length) {
+              currentIndex = 0;
+            }
+            const card = cards[currentIndex];
+            slider.scrollTo({
+              left: card.offsetLeft,
+              behavior: 'smooth'
+            });
+          }
+
+          setInterval(autoSlide, 7000); // 7 detik
+        });
+
+        // Slider
+        const slides = document.querySelectorAll('#slider img');
+        let current = 0;
+        setInterval(() => {
+          slides[current].classList.remove('opacity-100');
+          slides[current].classList.add('opacity-0');
+          current = (current + 1) % slides.length;
+          slides[current].classList.remove('opacity-0');
+          slides[current].classList.add('opacity-100');
+        }, 5000); // 5 detik
+    
+        // Date
+        function updateDate() {
+          const today = new Date();
+          const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+          document.getElementById('date').textContent = today.toLocaleDateString('id-ID', options);
+        }
+        updateDate();
+    
+        // Time
+        function updateTime() {
+          const now = new Date();
+          const timeString = now.toLocaleTimeString('id-ID');
+          document.getElementById('time').textContent = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+    
+        // Countdown
+        const eventDate = new Date('2025-08-05T09:00:00');
+        function updateCountdown() {
+          const now = new Date();
+          const diff = eventDate - now;
+          if (diff > 0) {
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+            document.getElementById('countdown').textContent =
+              `${days}h ${hours}j ${minutes}m ${seconds}d`;
+          } else {
+            document.getElementById('countdown').textContent = 'Acara Dimulai!';
+          }
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    
+        // Random Quote
+        const quotes = [
+          "Seni adalah jendela jiwa.",
+          "Kreativitas adalah kecerdasan yang bersenang-senang. - Einstein",
+          "Desain bukan hanya tentang bagaimana terlihat, tapi bagaimana bekerja. - Steve Jobs"
+        ];
+        document.getElementById('quote').textContent = quotes[Math.floor(Math.random() * quotes.length)];
+      </script>
+    
+      <script>
+        fetch('https://api.weatherapi.com/v1/current.json?key=YOUR_API_KEY&q=Bandung')
+          .then(response => response.json())
+          .then(data => {
+            const temp = data.current.temp_c;
+            const condition = data.current.condition.text;
+            const humidity = data.current.humidity;
+            const wind = data.current.wind_kph;
+    
+            document.getElementById('weather').innerHTML = `
+              <p>Suhu: ${temp}°C</p>
+              <p>Kondisi: ${condition}</p>
+              <p>Kelembapan: ${humidity}%</p>
+              <p>Kecepatan Angin: ${wind} km/h</p>
+            `;
+          })
+          .catch(error => {
+            console.error('Error fetching weather data:', error);
+            document.getElementById('weather').textContent = 'Cuaca tidak dapat dimuat.';
+          });
+      </script>
+    </body>
